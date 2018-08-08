@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<head>
+	<title>Inno-signage</title>
+	<meta charset="utf-8" />
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'personal/css/bootstrap.min.css' %}" type = "text/css"/>
+	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+
+	<style type="text/css">
+		html,
+		body {
+		  height:100%
+		}
+	</style>
+</head>
+
+<body class="body" style="background-color:white">
+	<div class="container-fluid" style="min-height:00%" >
+		<div class="row" style="background-color:grey;" style="max-height:100%">
+			  <div class="col-sm-2" style="background-color:grey" >
+				  <br>
+				  <center>
+					<img src="{% static 'personal/inno-logo.webp'%}" class="responsive-img" style='max-height:40px'>
+				  </center>
+			  </div>
+			  <div class="col-sm-10" style="background-color:orange">
+				  <br>
+				  <center>
+				  <h2>Inno-Sigange</h2>
+				  </center>
+			  </div>
+		</div><hr>
+	</div>
+
+ <div class="container">
+      <div class="row" >
+        <div class="span12">
+          <h1 class="page-header">
+            <div class="float-right">
+              <a id="previous-asset-button" class="btn" href="#">
+                <i class="icon-fast-backward"></i>
+                Previous Asset
+              </a>
+              <a id="next-asset-button" class="btn" href="#">
+                <i class="icon-fast-forward"></i>
+                Next Asset
+              </a>
+              <button id="add-asset-button" class="btn btn-primary" data-toggle="modal" data-target="#addAsset">
+                <i class="icon-plus icon-white"></i>
+                Add Asset
+              </button>
+            </div>
+            Schedule Overview
+          </h1>
+        </div>
+      </div>
+  </div>
+
+
+
+<Fdiv class="modal fade" id="addAsset" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Add Asset</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		  <form action="." method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ asset_form }}
+			  <br/>
+			<button type="submit" value="Submit" id="upload_asset" class="btn btn-primary">Upload</button>
+			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		  </form>
+	  </div>
+    </div>
+  </div>
+</Fdiv>
+
+</body>
+</html>

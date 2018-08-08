@@ -1,0 +1,171 @@
+{% load static %}
+<link href="{% static 'personal/style.css' %}">
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Inno-signage</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css" >
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+          crossorigin="anonymous">
+
+
+</head>
+
+<body>
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark nav-custom-padding">
+    <a class="navbar-brand" href="#">Innominds</a>
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex ">
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-cog"></i> Settings</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-square"></i> System Info</a>
+        </li>
+    </ul>
+</nav>
+
+<div    class="container p-0">
+    <br>     </br>
+    <div class="main-wrapper d-flex justify-content-between">
+        <h2>Schedule Overview</h2>
+        <div class="button-group">
+            <button type="button" class="btn btn-secondary">
+                <i class="fas fa-backward"></i> Previous Asset
+            </button>
+            <button type="button" class="btn btn-secondary">
+                <i class="fas fa-forward"></i> Next Asset
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddAsset">
+                <i class="fas fa-plus"></i> AddAsset
+            </button>
+        </div>
+    </div>
+
+    <p class="custom-table-heading">ACTIVE ASSETS</p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Edit/Delete</th>
+            <th>Toggle</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in active_assets %}
+        <tr>
+            <td>{{data.name}}</td>
+            <td>{{data.start_date}}</td>
+            <td>{{data.end_date}}</td>
+            <td>
+                <button type="button" class="btn btn-md btn-secondary">
+                    <i class="fas fa-pen"></i>
+                </button>
+                <button type="button" class="btn btn-md btn-secondary">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+            <td>
+
+                <button type="button" class="btn btn-md btn-secondary changeMode" data-toggle="button" aria-pressed="false" id="{{Asset.id}}">Off
+                </button>
+
+            </td>
+           </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+    <p class="custom-table-heading">INACTIVE ASSETS</p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Edit/Delete</th>
+            <th>Toggle</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in inactive_assets %}
+        <tr>
+            <td>{{data.name}}</td>
+            <td>{{data.start_date}}</td>
+            <td>{{data.end_date}}</td>
+            <td>
+                <button type="button" class="btn btn-md btn-secondary">
+                    <i class="fas fa-pen"></i>
+                </button>
+                <button type="button" class="btn btn-md btn-secondary">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+            <td>
+                 <button type="button" class="btn btn-md btn-primary changeMode" data-toggle="button" aria-pressed="false" id="{{data.id}}">On</button>
+
+            </td>
+           </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+
+
+</div>
+
+
+<div class="modal fade" id="AddAsset" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">AddAsset</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="." method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ asset_form }}
+                    <br/>
+                    <button type="submit" value="Submit" id="upload_asset" class="btn btn-primary">Upload</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+        integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
+</body>
+</html>
