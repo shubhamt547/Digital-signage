@@ -15,6 +15,7 @@ Including another URLconf
 """
 #from django.contrib import admin
 #from django.urls import path
+
 from django.conf.urls import url,include
 from django.views.generic import ListView
 from .views import index, changeStatus
@@ -22,6 +23,4 @@ from  .models import Asset
 urlpatterns = [
     url(r'^change_status/$', changeStatus.as_view(), name='change-status'),
     url(r'', index.as_view(), name=' index'),
-    #url(r'^$',ListView.as_view(queryset=Asset.objects.all().order_by("-date"),template_name="personal/base.html")),
-
 ]
