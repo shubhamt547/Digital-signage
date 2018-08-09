@@ -25,7 +25,13 @@
 
 <body>
 <nav class="navbar navbar-expand-sm bg-primary navbar-dark nav-custom-padding">
-    <a class="navbar-brand" href="#">Innominds</a>
+    <a class="navbar-brand" href="#">Innominds-signage  </a>
+    <div class="col-sm-2" style="background-color:grey" >
+				  <br>
+				  <center>
+					<img src="{% static 'personal/inno-logo.webp'%}" class="responsive-img" style='max-height:40px'>
+				  </center>
+    </div>
     <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex ">
         <li class="nav-item">
             <a class="nav-link" href="#">
@@ -38,7 +44,9 @@
     </ul>
 </nav>
 
-<div    class="container p-0">
+<center><div id="result"></div></center>
+
+<div class="container p-0">
     <br>     </br>
     <div class="main-wrapper d-flex justify-content-between">
         <h2>Schedule Overview</h2>
@@ -82,7 +90,7 @@
             </td>
             <td>
 
-                <button type="button" class="btn btn-md btn-secondary changeMode" data-toggle="button" aria-pressed="false" id="{{Asset.id}}">Off
+                <button type="button" class="btn btn-md btn-secondary" onclick="toggleMode({{data.id}}, 'inactive')"  data-toggle="button" aria-pressed="false" id="{{Asset.id}}">Off
                 </button>
 
             </td>
@@ -119,7 +127,7 @@
                 </button>
             </td>
             <td>
-                 <button type="button" class="btn btn-md btn-primary changeMode" data-toggle="button" aria-pressed="false" id="{{data.id}}">On</button>
+                 <button type="button" class="btn btn-md btn-primary" onclick="toggleMode({{data.id}}, 'active')" data-toggle="button" aria-pressed="false" id="{{data.id}}">On</button>
 
             </td>
            </tr>
@@ -158,14 +166,39 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
         integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
         crossorigin="anonymous"></script>
+<script>
+var token = $('input[name="csrfmiddlewaretoken"]').prop('value');
+$.ajaxSetup({
+  headers: { "X-CSRFToken": token  }
+});
+
+    function toggleMode(assetId, status){
+    $.ajax(
+    {
+        type:"POST",
+        url: "{%url 'change-status' %}",
+        data:{
+                 'assetId': assetId,
+                 'status':status
+        },
+        success: function( data )
+        {
+            $('#result').html(data.message);
+            $("#result").addClass("alert alert-success offset4 span4");
+            console.log(data);
+        }
+});
+}
+
+
+</script>
 </body>
 </html>
+
