@@ -6,26 +6,21 @@
 <html lang="en">
 
 <head>
-    <title>Inno-signage</title>
+    <title >Inno-signage</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="style.css" >
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
           crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
           integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
           crossorigin="anonymous">
-
-
 </head>
 
 <body>
-<nav class="navbar navbar-expand-sm bg-primary navbar-dark nav-custom-padding">
-    <a class="navbar-brand" href="#">Innominds-signage  </a>
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark nav-custom-padding" >
+    <a class="navbar-brand" href="#" style="color:white;" >Innominds-signage  </a>
     <div class="col-sm-2" style="background-color:" >
 				  <br>
 				  <center>
@@ -85,7 +80,7 @@
                     <i class="fas fa-pen"></i>
                 </button>
                 <button type="button" class="btn btn-md btn-secondary">
-                    <i class="fas fa-trash"></i>
+                    <i class="fas fa-trash" onclick="del_asset({{data.id}})" ></i>
                 </button>
             </td>
             <td>
@@ -123,7 +118,7 @@
                     <i class="fas fa-pen"></i>
                 </button>
                 <button type="button" class="btn btn-md btn-secondary">
-                    <i class="fas fa-trash"></i>
+                    <i class="fas fa-trash" onclick="del_asset({{data.id}})"></i>
                 </button>
             </td>
             <td>
@@ -136,8 +131,6 @@
 
         </tbody>
     </table>
-
-
 </div>
 
 
@@ -197,6 +190,31 @@ $.ajaxSetup({
 });
 }
 </script>
+
+
+<script>
+var token = $('input[name="csrfmiddlewaretoken"]').prop('value');
+$.ajaxSetup({
+  headers: { "X-CSRFToken": token  }
+});
+
+    function del_asset(asset_id){
+    $.ajax(
+    {
+        type:"POST",
+        url: "{%url 'delete-Asset' %}",
+        data:{
+                 'assetId': asset_id,
+        },
+        success: function( data )
+        {
+            $('#result').html(data.message);
+            $("#result").addClass("alert alert-success offset4 span4");
+            console.log(data);
+        }
+});
+}
+
+</script>
 </body>
 </html>
-

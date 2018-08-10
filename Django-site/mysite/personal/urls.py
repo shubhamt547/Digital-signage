@@ -18,9 +18,10 @@ Including another URLconf
 
 from django.conf.urls import url,include
 from django.views.generic import ListView
-from .views import index, changeStatus
+from .views import index, changeStatus,deleteAsset
 from  .models import Asset
 urlpatterns = [
+    url(r'^delete_asset/$', deleteAsset.as_view(), name='delete-Asset'),
     url(r'^change_status/$', changeStatus.as_view(), name='change-status'),
     url(r'', index.as_view(), name=' index'),
 ]
