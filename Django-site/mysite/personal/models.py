@@ -14,6 +14,7 @@ class Asset(models.Model):
     start_date = models.DateTimeField()
     active = models.BooleanField(default=False)
     end_date = models.DateTimeField()
+    changed_time=models.DateTimeField(null=True)
     duration = models.IntegerField(default=15)
 
 
