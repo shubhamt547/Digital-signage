@@ -15,13 +15,14 @@ Including another URLconf
 """
 #from django.contrib import admin
 #from django.urls import path
+from django.conf.urls import url
+#from django.views.generic import ListView
+from .views import Index , changeStatus , deleteAsset, EditAsset
+#from .views import httpsResponse
 
-from django.conf.urls import url,include
-from django.views.generic import ListView
-from .views import index, changeStatus,deleteAsset
-from  .models import Asset
 urlpatterns = [
-    url(r'^delete_asset/$', deleteAsset.as_view(), name='delete-Asset'),
+    url(r'^edit_asset/$', EditAsset.as_view(), name='edit-asset'),
+    url(r'^delete_asset/$', deleteAsset.as_view(), name='delete-asset'),
     url(r'^change_status/$', changeStatus.as_view(), name='change-status'),
-    url(r'', index.as_view(), name=' index'),
+    url(r'', Index.as_view(), name='index'),
 ]

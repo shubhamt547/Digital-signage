@@ -6,9 +6,9 @@
     margin: 30px 10px;
 }
 .custom-table-heading{
-    background: orange;
-    padding: 10px;
-    color: white;
-    font-weight: 500;
-    border-radius: 3px;
+    background:orange;
+    padding:10px;
+    color:blue;
+    font-weight:500;
+    border-radius:3px;
 }

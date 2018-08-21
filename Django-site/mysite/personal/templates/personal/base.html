@@ -1,27 +1,21 @@
-{% load static %}
-<link href="{% static '/personal/style.css' %}">
+{% load staticfiles %}
+<link type="text/css" href="{% static 'styles.css' %}">
 
 
-<!doctype html>
 <html lang="en">
-
 <head>
     <title >Inno-signage</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
-          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+
 </head>
 
 <body>
-<nav class="navbar navbar-expand-sm bg-primary navbar-dark nav-custom-padding" >
-    <a class="navbar-brand" href="#" style="color:white;" >Innominds-signage  </a>
-    <div class="col-sm-2" style="background-color:" >
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark nav-custom-padding">
+    <a class="navbar-brand" href="#"> <em>Innominds-signage</em> </a>
+    <div class="col-sm-3">
 				  <br>
 				  <center>
 					<img src="{% static 'personal/inno-logo.webp'%}" class="responsive-img" style='max-height:50px'>
@@ -42,7 +36,7 @@
 <center><div id="result"></div></center>
 
 <div class="container p-0">
-    <br>     </br>
+    <br/>
     <div class="main-wrapper d-flex justify-content-between">
         <h2>Schedule Overview</h2>
         <div class="button-group">
@@ -69,30 +63,28 @@
             <th>Toggle</th>
         </tr>
         </thead>
-        <tbody>
+        <body>
         {% for data in active_assets %}
         <tr>
             <td>{{data.name}}</td>
             <td>{{data.start_date}}</td>
             <td>{{data.end_date}}</td>
             <td>
-                <button type="button" class="btn btn-md btn-secondary">
+                <button type="button" class="btn btn-md btn-secondary editButton" id="{{data.id }}" data-toggle="modal" data-target="#edit_asset_model">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button type="button" class="btn btn-md btn-secondary">
-                    <i class="fas fa-trash" onclick="del_asset({{data.id}})" ></i>
+                <button type="button" class="btn btn-md btn-secondary" onclick="deleteAsset({{ data.id }})">
+                    <i class="fas fa-trash"></i>
                 </button>
             </td>
             <td>
 
-                <button type="button" class="btn btn-md btn-secondary" onclick="toggleMode({{data.id}}, 'inactive')"  data-toggle="button" aria-pressed="false" id="{{Asset.id}}">Off
-                </button>
-
+                <button type="button" class="btn btn-md btn-secondary" onclick="toggleMode({{data.id}}, 'inactive')"  data-toggle="button" aria-pressed="false" id="{{Asset.id}}">Off</button>
             </td>
            </tr>
         {% endfor %}
 
-        </tbody>
+        </body>
     </table>
 
 
@@ -107,18 +99,18 @@
             <th>Toggle</th>
         </tr>
         </thead>
-        <tbody>
+        <body>
         {% for data in inactive_assets %}
         <tr>
             <td>{{data.name}}</td>
             <td>{{data.start_date}}</td>
             <td>{{data.end_date}}</td>
             <td>
-                <button type="button" class="btn btn-md btn-secondary">
+                <button type="button" class="btn btn-md btn-secondary editButton" id="{{ data.id }}" data-toggle="modal" data-target="#edit_asset_model">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button type="button" class="btn btn-md btn-secondary">
-                    <i class="fas fa-trash" onclick="del_asset({{data.id}})"></i>
+                <button type="button" class="btn btn-md btn-secondary" onclick="deleteAsset({{data.id}})">
+                    <i class="fas fa-trash"></i>
                 </button>
             </td>
             <td>
@@ -127,12 +119,9 @@
             </td>
            </tr>
         {% endfor %}
-
-
-        </tbody>
+        </body>
     </table>
 </div>
-
 
 <div class="modal fade" id="AddAsset" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -148,8 +137,77 @@
                     {% csrf_token %}
                     {{ asset_form }}
                     <br/>
-                    <button type="submit" value="Submit" id="upload_asset" class="btn btn-primary">Upload</button>
+                    <button type="submit" value="submit" id="upload_asset" class="btn btn-primary">Upload</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit_asset_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Asset</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    {% csrf_token %}
+                    <div class="mdl-textfield mdl-js-textfield">
+                        <label class="mdl-textfield_label">Name :</label>
+                        <input class="mdl-textfield_input" id="name" type="text" />
+                        <!--<span class="mdl-textfield_error"></span>-->
+                    </div>
+                    <div>
+                        <label>Start Date : </label>
+                        <!--<input type="text" class="form-control datepicker " id="start_date"/>-->
+                        <div class="container">
+                          <div class="row">
+                            <div class='col-sm-3'>
+                              <div class="form-group">
+                                <div class='input-group date datepicker'>
+                                  <input type='text' class="form-control" id="start_date"/>
+                                  <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>End Date : </label>
+                        <div class="container">
+                          <div class="row">
+                            <div class='col-sm-3'>
+                              <div class="form-group">
+                                <div class='input-group date datepicker'>
+                                  <input type='text' class="form-control" id="end_date" />
+                                  <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                    </div>
+                        <!--<input type="text" class="form-control datepicker" id="end_date"/>-->
+                    <div>
+                        <label>Duration  :</label>
+                        <input type="number" name="duration" id="duration" />
+                    </div>
+                    <!--{% csrf_token %}-->
+                    <!--{{ edit_asset_form }}-->
+                    <br/>
+                    <button type="submit" value="submit" id="edit_asset" class="btn btn-primary" onclick="editAsset()">Edit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
         </div>
@@ -159,24 +217,42 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
-        integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+
+
+
 <script>
+var selectedAssetId = null;
+$('.editButton').on('click', function(){
+    selectedAssetId = $(this).attr('id');
+    console.log(selectedAssetId);
+});
+$(function () {
+
+    $('.datepicker').datetimepicker();
+});
 var token = $('input[name="csrfmiddlewaretoken"]').prop('value');
 $.ajaxSetup({
   headers: { "X-CSRFToken": token  }
 });
 
-    function toggleMode(assetId, status){
+function toggleMode(assetId, status){
     $.ajax(
     {
         type:"POST",
-        url: "{%url 'change-status' %}",
+        url: "{% url 'change-status' %}",
         data:{
                  'assetId': assetId,
                  'status':status
@@ -186,23 +262,60 @@ $.ajaxSetup({
             $('#result').html(data.message);
             $("#result").addClass("alert alert-success offset4 span4");
             console.log(data);
+            window.location.href = '';
         }
-});
+    })
 }
-</script>
 
+<!--function editAsset(){-->
+    <!--$.ajax(-->
+    <!--{-->
+        <!--type:"POST",-->
+        <!--url: "{%url 'edit-asset' %}",-->
+        <!--data:{-->
+                 <!--'asset_id': selectedAssetId,-->
+                 <!--'duration': $('#id_duration'),-->
+        <!--},-->
+        <!--success: function( data )-->
+        <!--{-->
+            <!--$('#result').html(data.message);-->
+            <!--$("#result").addClass("alert alert-success offset4 span4");-->
+            <!--console.log(data);-->
+        <!--}-->
+    <!--})-->
+<!--}-->
 
-<script>
-var token = $('input[name="csrfmiddlewaretoken"]').prop('value');
-$.ajaxSetup({
-  headers: { "X-CSRFToken": token  }
-});
+<!--$(document).on('submit','#edit_asset_form',function(e))-->
+<!--{-->
+    <!--e.preventDefault();-->
 
-    function del_asset(asset_id){
-    $.ajax(
-    {
+function editAsset()
+{
+    $.ajax({
+            type: 'POST',
+            url: "{% url 'edit-asset' %}",
+            data:{
+                    'assetId': selectedAssetId,
+                    'duration': $('#duration').val(),
+                    'start_date':$('#start_date').val(),
+                    'end_date':$('#end_date').val(),
+                    'name':$('#name').val()
+                  },
+            success: function( data )
+                    {
+                        $('#result').html(data.message);
+                        $("#result").addClass("alert alert-success offset4 span4");
+                        console.log(name)
+                        console.log(data);
+                        window.location.href = '';
+                    }
+            });
+
+}
+function deleteAsset(asset_id){
+    $.ajax({
         type:"POST",
-        url: "{%url 'delete-Asset' %}",
+        url: "{%url 'delete-asset' %}",
         data:{
                  'assetId': asset_id,
         },
@@ -211,10 +324,11 @@ $.ajaxSetup({
             $('#result').html(data.message);
             $("#result").addClass("alert alert-success offset4 span4");
             console.log(data);
+            window.location.href = '';
         }
-});
+})
 }
-
 </script>
+
 </body>
 </html>
