@@ -4,22 +4,26 @@
 
 <html lang="en">
 <head>
-    <title >Inno-signage</title>
+    <title>Inno-signage</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
 
 </head>
+<!--class="navbar navbar-light" style="background-color: #e3f2fd;"-->
 
 <body>
-<nav class="navbar navbar-expand-sm bg-primary navbar-dark nav-custom-padding">
-    <a class="navbar-brand" href="#"> <em>Innominds-signage</em> </a>
-    <div class="col-sm-3">
-				  <br>
-				  <center>
-					<img src="{% static 'personal/inno-logo.webp'%}" class="responsive-img" style='max-height:50px'>
-				  </center>
+<nav class="navbar navbar-expand-sm navbar-dark nav-custom-padding" style="background-color:#008B8B;">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'personal/inno-logo.webp'%}"class="responsive-img"
+                                          style='max-height:70px' id="innominds">
+        </a>
+    <div class="col-sm-7">
+        <br>
+        <center>
+            <font size="+3" color="white"><i>Innominds-signage</i></font>
+        </center>
     </div>
     <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex ">
         <li class="nav-item">
@@ -33,7 +37,9 @@
     </ul>
 </nav>
 
-<center><div id="result"></div></center>
+<center>
+    <div id="result"></div>
+</center>
 
 <div class="container p-0">
     <br/>
@@ -70,7 +76,8 @@
             <td>{{data.start_date}}</td>
             <td>{{data.end_date}}</td>
             <td>
-                <button type="button" class="btn btn-md btn-secondary editButton" id="{{data.id }}" data-toggle="modal" data-target="#edit_asset_model">
+                <button type="button" class="btn btn-md btn-secondary editButton" id="{{data.id }}" data-toggle="modal"
+                        data-target="#edit_asset_model">
                     <i class="fas fa-pen"></i>
                 </button>
                 <button type="button" class="btn btn-md btn-secondary" onclick="deleteAsset({{ data.id }})">
@@ -79,9 +86,10 @@
             </td>
             <td>
 
-                <button type="button" class="btn btn-md btn-secondary" onclick="toggleMode({{data.id}}, 'inactive')"  data-toggle="button" aria-pressed="false" id="{{Asset.id}}">Off</button>
+                <button type="button" class="btn btn-md btn-secondary" onclick="toggleMode({{data.id}}, 'inactive')"
+                        data-toggle="button" aria-pressed="false" id="{{Asset.id}}">Off</button>
             </td>
-           </tr>
+        </tr>
         {% endfor %}
 
         </body>
@@ -106,7 +114,8 @@
             <td>{{data.start_date}}</td>
             <td>{{data.end_date}}</td>
             <td>
-                <button type="button" class="btn btn-md btn-secondary editButton" id="{{ data.id }}" data-toggle="modal" data-target="#edit_asset_model">
+                <button type="button" class="btn btn-md btn-secondary editButton" id="{{ data.id }}" data-toggle="modal"
+                        data-target="#edit_asset_model">
                     <i class="fas fa-pen"></i>
                 </button>
                 <button type="button" class="btn btn-md btn-secondary" onclick="deleteAsset({{data.id}})">
@@ -114,16 +123,18 @@
                 </button>
             </td>
             <td>
-                 <button type="button" class="btn btn-md btn-primary" onclick="toggleMode({{data.id}}, 'active')" data-toggle="button" aria-pressed="false" id="{{data.id}}">On</button>
+                <button type="button" class="btn btn-md btn-primary" onclick="toggleMode({{data.id}}, 'active')"
+                        data-toggle="button" aria-pressed="false" id="{{data.id}}">On</button>
 
             </td>
-           </tr>
+        </tr>
         {% endfor %}
         </body>
     </table>
 </div>
 
-<div class="modal fade" id="AddAsset" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="AddAsset" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -145,7 +156,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="edit_asset_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="edit_asset_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -159,54 +171,55 @@
                     {% csrf_token %}
                     <div class="mdl-textfield mdl-js-textfield">
                         <label class="mdl-textfield_label">Name :</label>
-                        <input class="mdl-textfield_input" id="name" type="text" />
+                        <input class="mdl-textfield_input" id="name" type="text"/>
                         <!--<span class="mdl-textfield_error"></span>-->
                     </div>
                     <div>
                         <label>Start Date : </label>
                         <!--<input type="text" class="form-control datepicker " id="start_date"/>-->
                         <div class="container">
-                          <div class="row">
-                            <div class='col-sm-3'>
-                              <div class="form-group">
-                                <div class='input-group date datepicker'>
-                                  <input type='text' class="form-control" id="start_date"/>
-                                  <span class="input-group-addon">
+                            <div class="row">
+                                <div class='col-sm-3'>
+                                    <div class="form-group">
+                                        <div class='input-group date datepicker'>
+                                            <input type='text' class="form-control" id="start_date"/>
+                                            <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                   </span>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
-                          </div>
                         </div>
                     </div>
 
                     <div>
                         <label>End Date : </label>
                         <div class="container">
-                          <div class="row">
-                            <div class='col-sm-3'>
-                              <div class="form-group">
-                                <div class='input-group date datepicker'>
-                                  <input type='text' class="form-control" id="end_date" />
-                                  <span class="input-group-addon">
+                            <div class="row">
+                                <div class='col-sm-3'>
+                                    <div class="form-group">
+                                        <div class='input-group date datepicker'>
+                                            <input type='text' class="form-control" id="end_date"/>
+                                            <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                   </span>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
-                          </div>
-                         </div>
+                        </div>
                     </div>
-                        <!--<input type="text" class="form-control datepicker" id="end_date"/>-->
+                    <!--<input type="text" class="form-control datepicker" id="end_date"/>-->
                     <div>
-                        <label>Duration  :</label>
-                        <input type="number" name="duration" id="duration" />
+                        <label>Duration :</label>
+                        <input type="number" name="duration" id="duration"/>
                     </div>
                     <!--{% csrf_token %}-->
                     <!--{{ edit_asset_form }}-->
                     <br/>
-                    <button type="submit" value="submit" id="edit_asset" class="btn btn-primary" onclick="editAsset()">Edit</button>
+                    <button type="submit" value="submit" id="edit_asset" class="btn btn-primary"
+                            onclick="editAsset()">Edit</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
@@ -229,8 +242,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
 
 
 <script>
@@ -328,6 +341,7 @@ function deleteAsset(asset_id){
         }
 })
 }
+
 </script>
 
 </body>

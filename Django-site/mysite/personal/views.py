@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404,get_list_or_404
 from .forms import AddAssetForm
 from django.views.generic import View
-from django.http import HttpResponse , JsonResponse
+from django.http import  JsonResponse ,HttpResponseRedirect,HttpResponse
 from django.db.models import Q
 from mimetypes import MimeTypes
 from .models import Asset
 import datetime
 from django.utils import timezone
-
+import os
+import mimetypes
 # Create your views here.
 mime = MimeTypes()
 
@@ -27,10 +28,15 @@ class Index(View):
         if asset_form.is_valid():
             instance = Asset(source=request.FILES['file'],start_date=timezone.now(),end_date=datetime.datetime.now()+datetime.timedelta(days=1))
             instance.name = instance.source.name
-            mime_type = mime.guess_type(instance.source.path)
-            instance.type = 'I' if 'image' in mime_type else 'V'
+            mime_type = mime.guess_type(instance.source.url,strict=True)
+#             mime_type=mimetypes.guess_type(instance.name)
+            if 'image' in mime_type[0]:
+                instance.type='I'
+            else:
+                instance.type='V'
             instance.save()
-            return HttpResponse('File uploaded successfully')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            # return HttpResponse('File uploaded successfully')
 
 class EditAsset(View):
     def post(self, request):
@@ -78,7 +84,6 @@ class changeStatus(View):
             print(e)
             return JsonResponse({'success': False, 'message': 'Unable to change status'})
 
-
 class  deleteAsset(View):
     def post(self,request):
         try:
@@ -86,7 +91,56 @@ class  deleteAsset(View):
             delete_item=Asset.objects.get(id=asset_id)
             name=delete_item.name
             delete_item.delete()
+            # os.chdir('C:/Users/stiwari/PycharmProjects/Web-app/Django-site/mysite/uploads')
+            # os.remove(name)
             return JsonResponse({'success': True,'message': '{} Successfully deleted'.format(name)})
         except Exception as e:
             print(e)
             return JsonResponse({'success': False, 'message':'Unable to delete'})
+
+#
+# class fetchingAsset(View):
+#     def get(self,request):
+#         try:
+#             query = Q(active=True,end_date__gte=datetime.datetime.now(),start_date__lte=datetime.datetime.now())
+#             active_assets = Asset.objects.filter(query).order_by('changed_time')
+#             lst=[]
+#             for i in active_assets:
+#                 lst.append({'duration':i.duration,'url':i.source.url,'id':i.id})
+#             return JsonResponse({'success': True,'asset':lst})
+#         except Exception as e:
+#             print(e)
+#             return JsonResponse({'success': False})
+
+
+from filetransfers.api import serve_file,public_download_url
+from time import sleep
+class fetchingAsset(View):
+    def get(self,request,id):
+        try:
+            id=int(id)
+            query = Q(active=True,end_date__gte=datetime.datetime.now(),start_date__lte=datetime.datetime.now())
+            active_assets = Asset.objects.filter(query).order_by('changed_time')
+            lst=[]
+            for i in active_assets:
+                lst.append(i.id)
+            if id in lst:
+                upload=get_object_or_404(Asset,pk=id)
+                return (serve_file(request,upload.source,save_as=True))
+        except Exception as p:
+            print(p)
+            return JsonResponse({'success': False})
+
+
+class FileDownload(View):
+    def get(self,request):
+        try:
+            query = Q(active=True,end_date__gte=datetime.datetime.now(),start_date__lte=datetime.datetime.now())
+            active_assets = Asset.objects.filter(query).order_by('changed_time')
+            lst=[]
+            for i in active_assets:
+                lst.append({'duration':i.duration,'url':i.source.url,'id':i.id})
+            return JsonResponse({'success': True,'asset':lst})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'success': False})

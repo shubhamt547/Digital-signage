@@ -25,11 +25,13 @@ SECRET_KEY = 'gqlpin#r4g$7dd(34vwc-dz+30jgy!$h24784h^m$#+z2-u25z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'localhost', '127.0.0.1']
+
+SERVE_FILE_BACKEND = 'filetransfers.backends.default.serve_file'
+PUBLIC_DOWNLOAD_URL_BACKEND = 'filetransfers.backends.base_url.public_download_url'
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'personal',
     'django.contrib.admin',
@@ -129,3 +131,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'personal','static','personal'),]
 
 STATIC_ROOT=os.path.join(BASE_DIR,'personal','static','static_root')
+
