@@ -57,7 +57,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -111,7 +111,7 @@ LANGUAGE_CODE = 'en-us'
 FILE_UPLOAD_HANDLERS=["django.core.files.uploadhandler.MemoryFileUploadHandler",
                       "django.core.files.uploadhandler.TemporaryFileUploadHandler"]
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -122,7 +122,6 @@ USE_L10N = True
 
 USE_TZ = False
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
@@ -131,4 +130,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'personal','static','personal'),]
 
 STATIC_ROOT=os.path.join(BASE_DIR,'personal','static','static_root')
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT=os.path.join(BASE_DIR,'personal','static','media')

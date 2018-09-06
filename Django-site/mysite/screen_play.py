@@ -5,7 +5,7 @@
 #
 # query = Q(active=True, end_date__gte=datetime.datetime.now(), start_date__lte=datetime.datetime.now())
 # active_assets = Asset.objects.filter(query).order_by('changed_time')
-# from personal.models import Asset
+# # from personal.models import Asset
 #
 # import sqlite3
 # obj=sqlite3.connect('db.sqlite3')
@@ -18,7 +18,6 @@
 # print(lst)
 # obj.close()
 #
-
 # image1=cv2.imread('4.png')
 # img2=cv2.imread('6.png')
 # height, width = image1.shape[:2]

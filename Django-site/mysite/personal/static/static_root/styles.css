@@ -1,0 +1,14 @@
+.nav-custom-padding{
+    padding-left: 8% !important;
+    padding-right: 8% !important;
+}
+.main-wrapper{
+    margin: 30px 10px;
+}
+.custom-table-heading{
+    background:white;
+    padding:10px;
+    color:blue;
+    font-weight:500;
+    border-radius:3px;
+}
