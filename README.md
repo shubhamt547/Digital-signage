@@ -9,7 +9,7 @@ JSON RESPONSE:Json responce for account is displayed on fixed url:"Ip adrress:90
 distinguish between Active and Inactive assets.Json response render the name,duration,id and url  to download the particular file.
 
 file Download:To Download each active file Json response must be parsed.File can be downloaded by  
-url: "IPaddress:9012/fetching_asset/id "// note id here is the which is parsed from json Response for each media file.
+url: "IPaddress:9012/fetching_asset/id "// note 'id' here is the one which is parsed from json Response for each media file.
  
 
 
